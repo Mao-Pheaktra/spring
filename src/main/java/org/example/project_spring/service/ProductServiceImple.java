@@ -2,8 +2,6 @@ package org.example.project_spring.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.project_spring.dto.request.ProductRequest;
-import org.example.project_spring.dto.respone.BrandRespone;
-import org.example.project_spring.dto.respone.BrandResultRespone;
 import org.example.project_spring.dto.respone.ProductRespone;
 import org.example.project_spring.entity.Brand;
 import org.example.project_spring.entity.Product;
@@ -57,21 +55,29 @@ public class ProductServiceImple implements ProductService{
         productRespone.setImage(product.getImage());
         productRespone.setCreatedAt(product.getCreatedAt());
         productRespone.setUpdatedAt(product.getUpdatedAt());
-
-        BrandResultRespone brandRespone = new BrandResultRespone();
-
-        brandRespone.setBrand_id(brand.getBrand_id());
-        brandRespone.setBrandName(brand.getBrandName());
-        brandRespone.setLogo(brand.getLogo());
-        brandRespone.setCreatedAt(brand.getCreatedAt());
-        brandRespone.setUpdatedAt(brand.getUpdatedAt());
-
-        productRespone.setBrands(brandRespone);
+        productRespone.setBrand_id(brand.getBrand_id());
 
         return productRespone;
     }
     @Override
-    public List<ProductRespone> read(){
+    public ProductRespone readById(Long id){
+        Product product = producRepository.findById(id).orElseThrow(()->new ProductNotFound("Product not found"));
+        ProductRespone respones = new ProductRespone();
+
+           respones.setId(product.getId());
+           respones.setProName(product.getProName());
+           respones.setPrice(product.getPrice());
+           respones.setQty(product.getQty());
+           respones.setImage(product.getImage());
+           respones.setCreatedAt(product.getCreatedAt());
+           respones.setUpdatedAt(product.getUpdatedAt());
+
+            respones.setBrand_id(product.getBrand().getBrand_id());
+
+        return respones;
+    }
+    @Override
+    public List<ProductRespone> readAll(){
         List<Product> products = producRepository.findAll();
         List<ProductRespone> respones = new ArrayList<>();
 
@@ -88,16 +94,7 @@ public class ProductServiceImple implements ProductService{
             productRespone.setUpdatedAt(product.getUpdatedAt());
 
             Brand brand = product.getBrand();
-
-            BrandResultRespone brandRespone = new BrandResultRespone();
-
-            brandRespone.setBrand_id(brand.getBrand_id());
-            brandRespone.setBrandName(brand.getBrandName());
-            brandRespone.setLogo(brand.getLogo());
-            brandRespone.setCreatedAt(brand.getCreatedAt());
-            brandRespone.setUpdatedAt(brand.getUpdatedAt());
-
-            productRespone.setBrands(brandRespone);
+            productRespone.setBrand_id(brand.getBrand_id());
             respones.add(productRespone);
         }
         return respones;
@@ -115,16 +112,8 @@ public class ProductServiceImple implements ProductService{
         productRespone.setCreatedAt(product.getCreatedAt());
         productRespone.setUpdatedAt(product.getUpdatedAt());
 
-        Brand brand=product.getBrand();
-        BrandResultRespone brandRespone = new BrandResultRespone();
-
-        brandRespone.setBrand_id(brand.getBrand_id());
-        brandRespone.setBrandName(brand.getBrandName());
-        brandRespone.setLogo(brand.getLogo());
-        brandRespone.setCreatedAt(brand.getCreatedAt());
-        brandRespone.setUpdatedAt(brand.getUpdatedAt());
-
-        productRespone.setBrands(brandRespone);
+        Brand brand = product.getBrand();
+        productRespone.setBrand_id(brand.getBrand_id());
         producRepository.delete(product);
         return productRespone;
     }
@@ -158,16 +147,7 @@ public class ProductServiceImple implements ProductService{
         productRespone.setCreatedAt(product.getCreatedAt());
         productRespone.setUpdatedAt(product.getUpdatedAt());
 
-
-        BrandResultRespone brandRespone = new BrandResultRespone();
-
-        brandRespone.setBrand_id(brand.getBrand_id());
-        brandRespone.setBrandName(brand.getBrandName());
-        brandRespone.setLogo(brand.getLogo());
-        brandRespone.setCreatedAt(brand.getCreatedAt());
-        brandRespone.setUpdatedAt(brand.getUpdatedAt());
-
-        productRespone.setBrands(brandRespone);
+        productRespone.setBrand_id(brand.getBrand_id());
         return productRespone;
     }
 }

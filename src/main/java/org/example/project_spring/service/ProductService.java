@@ -10,7 +10,8 @@ import java.util.List;
 
 public interface ProductService {
     ProductRespone create(ProductRequest productRequest, MultipartFile file)throws IOException;
-    List<ProductRespone> read();
+    ProductRespone readById(Long id);
+    List<ProductRespone> readAll();
     ProductRespone delete(Long id);
     ProductRespone update(Long id, ProductRequest productRequest, MultipartFile file)throws IOException;
 }

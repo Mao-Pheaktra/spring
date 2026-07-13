@@ -9,7 +9,8 @@ import java.util.List;
 
 public interface BrandService {
     BrandRespone create(BrandRequest brandRequest, MultipartFile file)throws IOException;
-    BrandRespone read(Long brand_id);
+    BrandRespone readById(Long brand_id);
+    List<BrandRespone> readAll();
     BrandRespone delete(Long brand_id);
     BrandRespone update(Long brand_id, BrandRequest brandRequest, MultipartFile file)throws IOException;
 }

@@ -22,9 +22,13 @@ public class BrandController {
     public BrandRespone create(@ModelAttribute BrandRequest brandRequest, @RequestParam("file") MultipartFile file) throws IOException {
         return brandService.create(brandRequest,file);
     }
-    @GetMapping("/{brand_id}")
-    public ApiRespone<BrandRespone> read(@PathVariable Long brand_id){
-        return new ApiRespone<>("get data successfully",200,brandService.read(brand_id));
+    @GetMapping("/getById/{brand_id}")
+    public ApiRespone<BrandRespone> readById(@PathVariable Long brand_id){
+        return new ApiRespone<>("get data successfully",200,brandService.readById(brand_id));
+    }
+    @GetMapping("/getAll")
+    public ApiRespone<List<BrandRespone>> readAll(){
+        return new ApiRespone<>("get data successfully",200,brandService.readAll());
     }
     @DeleteMapping("/{brand_id}")
     public BrandRespone delete(@PathVariable Long brand_id){

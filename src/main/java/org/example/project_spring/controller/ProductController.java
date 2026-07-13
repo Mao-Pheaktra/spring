@@ -20,9 +20,13 @@ public class ProductController {
     public ProductRespone create(@ModelAttribute ProductRequest productRequest, @RequestParam("file")MultipartFile file)throws IOException {
         return productService.create(productRequest,file);
     }
-    @GetMapping
-    public ApiRespone<List<ProductRespone>> read(){
-        return new ApiRespone<>("get data successfully",200,productService.read());
+    @GetMapping("/getById/{id}")
+    public ApiRespone<ProductRespone> readById(@PathVariable Long id){
+        return new ApiRespone<>("get data successfully",200,productService.readById(id));
+    }
+    @GetMapping("/getAll")
+    public ApiRespone<List<ProductRespone>> readAll(){
+        return new ApiRespone<>("get data successfully",200,productService.readAll());
     }
     @DeleteMapping("/{id}")
     public ProductRespone delete(@PathVariable Long id){

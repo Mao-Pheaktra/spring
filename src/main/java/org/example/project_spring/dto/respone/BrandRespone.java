@@ -12,6 +12,4 @@ public class BrandRespone {
     private String logo;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    private List<ProductResultRespone> products;
 }

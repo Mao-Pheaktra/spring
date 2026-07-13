@@ -14,5 +14,5 @@ public class ProductRespone {
     private String image;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private BrandResultRespone brands;
+    private Long brand_id;
 }

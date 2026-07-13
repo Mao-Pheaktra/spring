@@ -3,8 +3,6 @@ package org.example.project_spring.service;
 import lombok.RequiredArgsConstructor;
 import org.example.project_spring.dto.request.BrandRequest;
 import org.example.project_spring.dto.respone.BrandRespone;
-import org.example.project_spring.dto.respone.ProductRespone;
-import org.example.project_spring.dto.respone.ProductResultRespone;
 import org.example.project_spring.entity.Brand;
 import org.example.project_spring.entity.Product;
 import org.example.project_spring.exception.BrandNotFound;
@@ -18,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -50,32 +49,33 @@ public class BrandServiceImple implements BrandService{
         return brandRespone;
     }
     @Override
-    public BrandRespone read(Long brand_id) {
-        Brand brand = brandRepository.findById(brand_id).orElseThrow(()->new BrandNotFound("Brand not found"));
+    public BrandRespone readById(Long brand_id) {
+        Brand brand = brandRepository.findById(brand_id)
+                .orElseThrow(() -> new BrandNotFound("Brand not found"));
 
+        BrandRespone response = new BrandRespone();
+        response.setBrand_id(brand.getBrand_id());
+        response.setBrandName(brand.getBrandName());
+        response.setLogo(brand.getLogo());
+        response.setCreatedAt(brand.getCreatedAt());
+        response.setUpdatedAt(brand.getUpdatedAt());
+
+        return response;
+    }
+    @Override
+    public List<BrandRespone> readAll() {
+        List<Brand> brands = brandRepository.findAll();
+        List<BrandRespone> respones = new ArrayList<>();
+        for (Brand brand: brands) {
             BrandRespone brandRespone = new BrandRespone();
             brandRespone.setBrand_id(brand.getBrand_id());
             brandRespone.setBrandName(brand.getBrandName());
             brandRespone.setLogo(brand.getLogo());
             brandRespone.setCreatedAt(brand.getCreatedAt());
             brandRespone.setUpdatedAt(brand.getUpdatedAt());
-
-
-            List<ProductResultRespone> products = new ArrayList<>();
-            for (Product product: brand.getProducts()) {
-                ProductResultRespone productRespone = new ProductResultRespone();
-
-                productRespone.setId(product.getId());
-                productRespone.setProName(product.getProName());
-                productRespone.setPrice(product.getPrice());
-                productRespone.setQty(product.getQty());
-                productRespone.setImage(product.getImage());
-                productRespone.setCreatedAt(product.getCreatedAt());
-                productRespone.setUpdatedAt(product.getUpdatedAt());
-                products.add(productRespone);
-            }
-        brandRespone.setProducts(products);
-        return brandRespone;
+            respones.add(brandRespone);
+        }
+        return respones;
     }
     @Override
     public BrandRespone delete(Long brand_id){
@@ -86,20 +86,6 @@ public class BrandServiceImple implements BrandService{
         brandRespone.setLogo(brand.getLogo());
         brandRespone.setCreatedAt(brand.getCreatedAt());
         brandRespone.setUpdatedAt(brand.getUpdatedAt());
-
-        List<ProductResultRespone> products = new ArrayList<>();
-        for (Product product: brand.getProducts()) {
-            ProductResultRespone productRespone = new ProductResultRespone();
-
-            productRespone.setId(product.getId());
-            productRespone.setProName(product.getProName());
-            productRespone.setPrice(product.getPrice());
-            productRespone.setQty(product.getQty());
-            productRespone.setImage(product.getImage());
-            productRespone.setCreatedAt(product.getCreatedAt());
-            productRespone.setUpdatedAt(product.getUpdatedAt());
-
-        }
 
         brandRepository.delete(brand);
         return brandRespone;
@@ -125,19 +111,6 @@ public class BrandServiceImple implements BrandService{
         brandRespone.setCreatedAt(brand.getCreatedAt());
         brandRespone.setUpdatedAt(brand.getUpdatedAt());
 
-        List<ProductResultRespone> products = new ArrayList<>();
-        for (Product product: brand.getProducts()) {
-            ProductResultRespone productRespone = new ProductResultRespone();
-
-            productRespone.setId(product.getId());
-            productRespone.setProName(product.getProName());
-            productRespone.setPrice(product.getPrice());
-            productRespone.setQty(product.getQty());
-            productRespone.setImage(product.getImage());
-            productRespone.setCreatedAt(product.getCreatedAt());
-            productRespone.setUpdatedAt(product.getUpdatedAt());
-
-        }
 
         return brandRespone;
     }
